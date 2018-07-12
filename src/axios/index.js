@@ -1,43 +1,11 @@
+import Vue from 'vue'
 import axios from 'axios'
 
-axios.default.timeout = 5000
-axios.defaults.headers.post['Content-Type'] = 'application/json'
+// https://vuejs.org/v2/cookbook/adding-instance-properties.html#Real-World-Example-Replacing-Vue-Resource-with-Axios
 
-const instance = axios.create();
-instance.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.timeout = 1000
+axios.defaults.baseURL = "http://10.206.12.202:3000"
 
-axios.interceptors.request.use = instance.interceptors.request.use
-instance.interceptors.request.use(config => {
-  if (localStorage.getItem('token')) {
-    config.headers.Authorization = `token ${localStorage.getItem('token')}`
-      .replace(/(^\")|(\"$)/g, '')
-  }
-  return config
-}, err => {
-  return Promise.reject(err)
-})
-// axios拦截响应
-instance.interceptors.response.use(response => {
-  return response
-}, err => {
-  return Promise.reject(err)
-})
-
-export default {
-  // 用户注册
-  userRegister(data) {
-    return instance.post('/api/register', data)
-  },
-  // 用户登录
-  UserLogin(data) {
-    return instance.post('/api/login', data)
-  },
-  // 获取用户
-  getUser() {
-    return instance.get('/api/user')
-  },
-  // 删除用户
-  delUser(data) {
-    return instance.post('/api/delUser', data)
-  }
-}
+Vue.prototype.$http = axios
+// Vue.prototype.$ajax = axios
+// Vue.prototype.$axios = axios
