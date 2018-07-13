@@ -2,13 +2,13 @@
   <el-row type='flex' justify='center'>
     <el-form ref='loginForm' :model='user' :rules='rules' status-icon>
       <el-form-item prop='username'>
-        <el-input placeholder='用户名' v-model='user.username'></el-input>
+        <el-input placeholder='用户名' v-model='user.username' @keyup.enter.native='submitForm("loginForm")'></el-input>
       </el-form-item>
       <el-form-item prop='password'>
-        <el-input placeholder='密码' v-model='user.password' type='password'></el-input>
+        <el-input placeholder='密码' v-model='user.password' type='password' @keyup.enter.native='submitForm("loginForm")'></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button id='login-button' plain type='success' icon='el-icon-check' @click='submitForm("loginForm")'>登录</el-button>
+        <el-button id='login-button' type='success' icon='el-icon-check' @click='submitForm("loginForm")'>登录</el-button>
         <el-button id='reset-button' plain type='danger' icon='el-icon-close' @click='resetForm("loginForm")'>清空</el-button>
       </el-form-item>
     </el-form>

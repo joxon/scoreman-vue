@@ -12,7 +12,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   /* store基本上就是一个容器，它包含着你的应用中大部分的状态 (state)。Vuex 的状态存储是响应式的。当 Vue 组件从 store 中读取状态的时候，若 store 中的状态发生变化，那么相应的组件也会相应地得到高效更新。 */
   state: {
-    user: undefined
+    logined: false,
+    user: {
+      usertype: null,
+      username: null,
+      password: null
+    }
   },
   // 修改全局变量必须通过mutations中的方法
   // mutations只能采用同步方法
