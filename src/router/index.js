@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Login from '@/pages/Login.vue'
 import Page404 from '@/pages/404.vue'
+import Admin from '@/pages/Admin.vue'
 
 Vue.use(Router)
 
@@ -26,6 +27,7 @@ export default new Router({
     ]
   }, {
     path: '/admin',
+    component: Admin,
     children: [{
         path: 'students'
       },
