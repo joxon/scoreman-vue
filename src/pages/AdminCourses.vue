@@ -12,10 +12,10 @@
       <el-table-column prop="cname" label="课程名" width="100" />
       <el-table-column prop="credit" label="学分" width="50" />
       <el-table-column prop="semester" label="学期" />
-      <el-table-column label="操作" width="150">
+      <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button icon="el-icon-edit" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button icon="el-icon-delete" size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
