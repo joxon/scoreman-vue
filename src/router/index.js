@@ -1,9 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import UserInfo from '@/components/UserInfo.vue'
+
 import Login from '@/pages/Login.vue'
 import Page404 from '@/pages/404.vue'
+
 import Admin from '@/pages/Admin.vue'
+import AdminStudents from '@/pages/AdminStudents.vue'
+import AdminTeachers from '@/pages/AdminTeachers.vue'
+import AdminCourses from '@/pages/AdminCourses.vue'
 
 Vue.use(Router)
 
@@ -29,13 +35,20 @@ export default new Router({
     path: '/admin',
     component: Admin,
     children: [{
-        path: 'students'
+        path: 'students',
+        component: AdminStudents
       },
       {
-        path: 'teachers'
+        path: 'teachers',
+        component: AdminTeachers
       },
       {
-        path: 'courses'
+        path: 'courses',
+        component: AdminCourses
+      },
+      {
+        path: 'userinfo',
+        component: UserInfo
       }
     ]
   }, {
