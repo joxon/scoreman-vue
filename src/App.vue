@@ -62,5 +62,21 @@ export default {
 
 .el-footer {
   background-color: rgb(230, 230, 230);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
 }
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
 </style>

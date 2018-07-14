@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item>
         <el-button id='login-button' type='success' icon='el-icon-check' @click='submitForm("loginForm")'>登录</el-button>
-        <el-button id='reset-button' plain type='danger' icon='el-icon-close' @click='resetForm("loginForm")'>清空</el-button>
+        <el-button id='reset-button' type='danger' icon='el-icon-close' @click='resetForm("loginForm")'>清空</el-button>
       </el-form-item>
     </el-form>
   </el-row>
