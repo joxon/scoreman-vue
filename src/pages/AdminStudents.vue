@@ -117,8 +117,7 @@ export default {
         classno: "",
         sex: "",
         password: ""
-      },
-      stuFormPrevModel: null
+      }
     };
   },
 
