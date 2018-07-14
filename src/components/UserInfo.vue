@@ -1,13 +1,16 @@
 <template>
   <el-row type="flex" width="100px">
     <el-form label-width="80px">
-      <el-form-item label="用户类型">
+      <el-form-item label="类型">
         <el-tag>{{usertype}}</el-tag>
       </el-form-item>
-      <el-form-item label="用户名">
+      <el-form-item label="账号">
         <el-tag>{{username}}</el-tag>
       </el-form-item>
-      <el-form-item label="新密码">
+      <el-form-item required label="旧密码">
+        <el-input></el-input>
+      </el-form-item>
+      <el-form-item required label="新密码">
         <el-input></el-input>
       </el-form-item>
       <el-form-item>

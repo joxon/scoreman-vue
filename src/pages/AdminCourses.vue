@@ -1,15 +1,16 @@
 <template>
   <el-container direction='vertical'>
     <el-button-group>
+      <el-button type='primary' icon='el-icon-refresh' @click="getData()">刷新</el-button>
       <el-button type='success' icon='el-icon-plus' @click="addOneCourse()">新增课程</el-button>
       <el-button type='danger' icon='el-icon-minus' @click="deleteSelections()">删除所选</el-button>
     </el-button-group>
 
     <el-table :data="tableData" stripe>
       <el-table-column type="selection" width="40" />
-      <el-table-column prop="cid" label="课程号" width="70" />
-      <el-table-column prop="tid" label="教师号" width="70" />
-      <el-table-column prop="cname" label="课程名" width="100" />
+      <el-table-column prop="cID" label="课程号" width="70" />
+      <el-table-column prop="tID" label="教师号" width="70" />
+      <el-table-column prop="cName" label="课程名" width="150" />
       <el-table-column prop="credit" label="学分" width="50" />
       <el-table-column prop="semester" label="学期" />
       <el-table-column fixed="right" label="操作" width="200">
@@ -23,35 +24,36 @@
 </template>
 
 <script>
-  export default {
-    methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
+export default {
+  created: function() {
+    this.getData();
+  },
+  methods: {
+    getData() {
+      this.$http.get("/admin/course").then(res => {
+        this.tableData = res.data;
+      });
     },
-
-    data() {
-      return {
-        tableData: [{
-            cid: "C0001",
-            tid: "T0001",
-            cname: "数据库",
-            credit: 2.0,
-            semester: "春"
-          },
-          {
-            cid: "C0002",
-            tid: "T0002",
-            cname: "系统结构",
-            credit: 2.0,
-            semester: "春"
-          }
-        ]
-      };
+    handleEdit(index, row) {
+      console.log(index, row);
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
     }
-  };
+  },
 
+  data() {
+    return {
+      tableData: [
+        {
+          cID: "加载中",
+          tID: "加载中",
+          cName: "加载中",
+          credit: "加载中",
+          semester: "加载中"
+        }
+      ]
+    };
+  }
+};
 </script>

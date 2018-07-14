@@ -5,11 +5,9 @@ import './axios'
 import './element'
 import App from './App.vue'
 
-new Vue({
+var app = new Vue({
   el:'#app',
   router,
   store,
   render: h => h(App)
 })
-
-

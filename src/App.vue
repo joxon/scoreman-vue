@@ -34,7 +34,8 @@ export default {
           this.$router.replace("/login");
           this.$message({
             type: "success",
-            message: "注销成功"
+            message: "注销成功",
+            center: true
           });
         });
       });
@@ -78,5 +79,4 @@ body {
   padding: 0;
   position: relative;
 }
-
 </style>

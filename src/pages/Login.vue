@@ -28,15 +28,15 @@ export default {
         username: [
           {
             required: true,
-            message: '用户名不能为空',
-            trigger: 'blur'
+            message: "用户名不能为空",
+            trigger: "blur"
           }
         ],
         password: [
           {
             required: true,
-            message: '密码不能为空',
-            trigger: 'blur'
+            message: "密码不能为空",
+            trigger: "blur"
           }
         ]
       }
@@ -52,19 +52,19 @@ export default {
         if (valid) {
           // 则发送登录请求
           this.$http
-            .post('/login', this.user)
+            .post("/login", this.user)
             .then(res => {
               // 处理响应
               if (res.data) {
                 var usertype = res.data.usertype;
                 if (
-                  usertype != 'student' &&
-                  usertype != 'teacher' &&
-                  usertype != 'admin'
+                  usertype != "student" &&
+                  usertype != "teacher" &&
+                  usertype != "admin"
                 ) {
                   var msgErr = {
-                    type: 'error',
-                    message: '用户名或密码错误',
+                    type: "error",
+                    message: "用户名或密码错误",
                     showClose: true
                   };
                   this.$message(msgErr);
@@ -72,39 +72,42 @@ export default {
                 }
 
                 this.user.usertype = res.data.usertype;
-                this.$store.dispatch('login', this.user).then(() => {
+                this.$store.dispatch("login", this.user).then(() => {
                   var msgOK = {
-                    type: 'success',
-                    message: '欢迎您，',
-                    duration: 1000
+                    type: "success",
+                    message: "欢迎您，",
+                    duration: 1000,
+                    center: true
                   };
-                  if (usertype == 'student') {
-                    msgOK.message += '学生 ' + this.user.username;
+                  if (usertype == "student") {
+                    msgOK.message += "学生 " + this.user.username;
                     this.$message(msgOK);
-                    this.$router.replace('/student');
-                  } else if (usertype == 'teacher') {
-                    msgOK.message += '教师 ' + this.user.username;
+                    this.$router.replace("/student");
+                  } else if (usertype == "teacher") {
+                    msgOK.message += "教师 " + this.user.username;
                     this.$message(msgOK);
-                    this.$router.replace('/teacher');
-                  } else if (usertype == 'admin') {
-                    msgOK.message += '管理员 ' + this.user.username;
+                    this.$router.replace("/teacher");
+                  } else if (usertype == "admin") {
+                    msgOK.message += "管理员 " + this.user.username;
                     this.$message(msgOK);
-                    this.$router.replace('/admin');
+                    this.$router.replace("/admin");
                   }
                 });
               } else {
                 this.$message({
-                  type: 'error',
-                  message: '响应数据异常',
-                  showClose: true
+                  type: "error",
+                  message: "响应数据异常",
+                  showClose: true,
+                  center: true
                 });
               }
             })
             .catch(err => {
               this.$message({
-                type: 'error',
-                message: '网络超时',
-                showClose: true
+                type: "error",
+                message: "网络超时",
+                showClose: true,
+                center: true
               });
             });
         } else {
