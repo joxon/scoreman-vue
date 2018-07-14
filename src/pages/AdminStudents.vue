@@ -26,7 +26,7 @@
           </el-select>
         </el-form-item>
         <el-form-item prop='password' label='密码' >
-          <el-input v-model='stuFormModel.password' type='password'></el-input>
+          <el-input v-model='stuFormModel.password' ></el-input>
         </el-form-item>
       </el-form>
       <div slot='footer'>
@@ -117,7 +117,8 @@ export default {
         classno: "",
         sex: "",
         password: ""
-      }
+      },
+      stuFormPrevModel: null
     };
   },
 
@@ -224,7 +225,15 @@ export default {
     },
 
     handleEditFromMenu(index, row) {
-      this.stuFormModel = row;
+      // 此处不能让model=row，因为这样是传引用
+      // 传引用的话，输入表单的时候会把修改渲染到表格上面
+      // 下面传值不影响界面渲染
+      this.stuFormModel.sID = row.sID;
+      this.stuFormModel.sName = row.sName;
+      this.stuFormModel.classno = row.classno;
+      this.stuFormModel.sex = row.sex;
+      this.stuFormModel.password = row.password;
+
       this.sIDInputDisabled = true;
       this.showEdtStuForm();
     },
