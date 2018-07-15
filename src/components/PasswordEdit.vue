@@ -1,21 +1,21 @@
 <template>
-  <el-row type="flex" width="100px">
+  <el-row type='flex' width='100px'>
 
-    <el-form ref="pwdForm" :model="pwdFormModel" label-width="80px">
-      <el-form-item label="类型">
+    <el-form ref='pwdForm' :model='pwdFormModel' label-width='80px'>
+      <el-form-item label='类型'>
         <el-tag>{{ user.usertype }}</el-tag>
       </el-form-item>
-      <el-form-item label="账号">
+      <el-form-item label='账号'>
         <el-tag>{{ user.username }}</el-tag>
       </el-form-item>
-      <el-form-item label="旧密码" prop="pwdOld">
-        <el-input type="password" clearable placeholder="请输入旧密码" v-model="pwdFormModel.pwdOld"></el-input>
+      <el-form-item label='旧密码' prop='pwdOld'>
+        <el-input type='password' clearable placeholder='请输入旧密码' v-model='pwdFormModel.pwdOld'></el-input>
       </el-form-item>
-      <el-form-item label="新密码" prop="pwdNew">
-        <el-input type="password" clearable placeholder="请输入新密码" v-model="pwdFormModel.pwdNew"></el-input>
+      <el-form-item label='新密码' prop='pwdNew'>
+        <el-input type='password' clearable placeholder='请输入新密码' v-model='pwdFormModel.pwdNew'></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="handleEdtPwd()">更新密码</el-button>
+        <el-button type='primary' @click='handleEditPassword()'>更新密码</el-button>
       </el-form-item>
     </el-form>
 
@@ -59,37 +59,46 @@ export default {
     }
   },
   methods: {
-    handleEdtPwd() {
-      this.$refs.pwdForm.validata(valid => {
+    handleEditPassword() {
+      this.$refs.pwdForm.validate(valid => {
         if (valid) {
-          var edtPwdPkg = {
+          this.editPassword({
             username: this.$store.state.user.username,
             password_old: this.pwdFormModel.pwdOld,
             password_new: this.pwdFormModel.pwdNew
-          };
-          edtPwd(edtPwdPkg);
+          });
         } else {
           return false;
         }
       });
     },
 
-    edtPwd(edtPwdPkg) {
-      this.$http.put("/password", edtPwdPkg).then(res => {
-        if (res.data.type == "success") {
+    editPassword(editPasswordMsg) {
+      this.$http
+        .put("/password", editPasswordMsg)
+        .then(res => {
+          if (res.data.restype == "success") {
+            this.$message({
+              type: "success",
+              message: "修改密码成功",
+              showClose: true
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "修改密码失败",
+              showClose: true
+            });
+          }
+        })
+        .catch(err => {
           this.$message({
             type: "error",
-            message: "修改密码成功",
-            showClose: true
+            message: "网络超时",
+            showClose: true,
+            center: true
           });
-        } else {
-          this.$message({
-            type: "error",
-            message: "修改密码失败",
-            showClose: true
-          });
-        }
-      });
+        });
     }
   }
 };

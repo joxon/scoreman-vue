@@ -6,7 +6,7 @@ import axios from 'axios'
 axios.defaults.timeout = 1000
 
 // zdh: http://10.206.12.202:3000
-axios.defaults.baseURL = "http://10.206.12.202:3000"
+axios.defaults.baseURL = "http://localhost:3000"
 
 Vue.prototype.$http = axios
 // Vue.prototype.$ajax = axios
