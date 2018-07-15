@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import UserInfo from '@/components/UserInfo.vue'
+import PasswordEdit from '@/components/PasswordEdit.vue'
 
 import Login from '@/pages/Login.vue'
 import Page404 from '@/pages/404.vue'
@@ -34,22 +34,22 @@ export default new Router({
   }, {
     path: '/admin',
     component: Admin,
-    redirect: '/admin/students',
+    redirect: '/admin/student',
     children: [{
-        path: 'students',
+        path: 'student',
         component: AdminStudents
       },
       {
-        path: 'teachers',
+        path: 'teacher',
         component: AdminTeachers
       },
       {
-        path: 'courses',
+        path: 'course',
         component: AdminCourses
       },
       {
-        path: 'userinfo',
-        component: UserInfo
+        path: 'password',
+        component: PasswordEdit
       }
     ]
   }, {

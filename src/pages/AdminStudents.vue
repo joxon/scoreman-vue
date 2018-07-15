@@ -1,7 +1,7 @@
 <template>
   <el-container direction='vertical'>
     <el-button-group>
-      <el-button type='primary' icon='el-icon-refresh' @click='getStudents()'>刷新</el-button>
+      <el-button type='primary' icon='el-icon-refresh' @click='getStudents()'>刷新表格</el-button>
       <el-button type='success' icon='el-icon-plus' @click='showAddStuForm()'>新增学生</el-button>
       <el-button type='danger' icon='el-icon-minus' @click='handleDeleteSels()'>删除所选</el-button>
     </el-button-group>
@@ -30,7 +30,7 @@
         </el-form-item>
       </el-form>
       <div slot='footer'>
-        <el-button @click='resetStuForm()'>清空</el-button>
+        <el-button v-if="rstButtonVisible" @click='resetStuForm()'>清空</el-button>
         <el-button @click='hideStuForm()'>取消</el-button>
         <el-button v-if='addButtonVisible' type='primary' @click='handleAdd()'>确定添加</el-button>
         <el-button v-if='edtButtonVisible' type='primary' @click='handleEditFromForm()'>确定编辑</el-button>
@@ -107,6 +107,7 @@ export default {
         ]
       },
       sIDInputDisabled: false,
+      rstButtonVisible: false,
       addButtonVisible: false,
       edtButtonVisible: false,
       stuFormVisible: false,
@@ -138,6 +139,7 @@ export default {
     showAddStuForm() {
       this.stuFormTitle = "新增学生";
       this.sIDInputDisabled = false;
+      this.rstButtonVisible = true;
       this.addButtonVisible = true;
       this.edtButtonVisible = false;
       this.stuFormVisible = true;
@@ -146,6 +148,7 @@ export default {
     showEdtStuForm() {
       this.stuFormTitle = "编辑学生";
       this.sIDInputDisabled = true;
+      this.rstButtonVisible = false;
       this.addButtonVisible = false;
       this.edtButtonVisible = true;
       this.stuFormVisible = true;
