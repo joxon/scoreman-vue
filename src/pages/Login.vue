@@ -1,11 +1,11 @@
 <template>
   <el-row type='flex' justify='center'>
-    <el-form ref='loginForm' :model='user' :rules='rules' status-icon>
+    <el-form ref='loginForm' :model='loginFormModel' :rules='loginFormRules' status-icon>
       <el-form-item prop='username'>
-        <el-input placeholder='用户名' v-model='user.username' @keyup.enter.native='submitForm("loginForm")'></el-input>
+        <el-input placeholder='用户名' v-model='loginFormModel.username' @keyup.enter.native='submitForm("loginForm")'></el-input>
       </el-form-item>
       <el-form-item prop='password'>
-        <el-input placeholder='密码' v-model='user.password' type='password' @keyup.enter.native='submitForm("loginForm")'></el-input>
+        <el-input placeholder='密码' v-model='loginFormModel.password' type='password' @keyup.enter.native='submitForm("loginForm")'></el-input>
       </el-form-item>
       <el-form-item>
         <el-button id='login-button' type='success' icon='el-icon-check' @click='submitForm("loginForm")'>登录</el-button>
@@ -20,11 +20,11 @@ export default {
   // https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function
   data: function() {
     return {
-      user: {
+      loginFormModel: {
         username: null,
         password: null
       },
-      rules: {
+      loginFormRules: {
         username: [
           {
             required: true,
@@ -52,7 +52,7 @@ export default {
         if (valid) {
           // 则发送登录请求
           this.$http
-            .post("/login", this.user)
+            .post("/login", this.loginFormModel)
             .then(res => {
               // 处理响应
               if (res.data) {
@@ -62,17 +62,22 @@ export default {
                   usertype != "teacher" &&
                   usertype != "admin"
                 ) {
-                  var msgErr = {
+                  this.$message({
                     type: "error",
                     message: "用户名或密码错误",
                     showClose: true
-                  };
-                  this.$message(msgErr);
+                  });
                   return;
                 }
 
-                this.user.usertype = res.data.usertype;
-                this.$store.dispatch("login", this.user).then(() => {
+                var user = {
+                  usertype: null,
+                  username: null
+                };
+                user.usertype = res.data.usertype;
+                user.username = this.loginFormModel.username;
+
+                this.$store.dispatch("login", user).then(() => {
                   var msgOK = {
                     type: "success",
                     message: "欢迎您，",
@@ -80,15 +85,15 @@ export default {
                     center: true
                   };
                   if (usertype == "student") {
-                    msgOK.message += "学生 " + this.user.username;
+                    msgOK.message += "学生 " + user.username;
                     this.$message(msgOK);
                     this.$router.replace("/student");
                   } else if (usertype == "teacher") {
-                    msgOK.message += "教师 " + this.user.username;
+                    msgOK.message += "教师 " + user.username;
                     this.$message(msgOK);
                     this.$router.replace("/teacher");
                   } else if (usertype == "admin") {
-                    msgOK.message += "管理员 " + this.user.username;
+                    msgOK.message += "管理员 " + user.username;
                     this.$message(msgOK);
                     this.$router.replace("/admin");
                   }

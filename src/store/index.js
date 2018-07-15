@@ -15,8 +15,8 @@ export default new Vuex.Store({
     logined: false,
     user: {
       usertype: null,
-      username: null,
-      password: null
+      username: null
+      // password: null
     }
   },
   // 修改全局变量必须通过mutations中的方法
