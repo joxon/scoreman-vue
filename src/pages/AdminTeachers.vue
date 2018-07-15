@@ -46,7 +46,7 @@
       <el-table-column type='selection' width='40' />
       <el-table-column sortable prop='tID' label='教师号' width='90' />
       <el-table-column prop='tName' label='姓名' width='70' />
-      <el-table-column prop='email' label='班级' width='100' />
+      <el-table-column prop='email' label='邮箱' width='100' />
       <el-table-column prop='sex' label='性别' width='50' />
       <el-table-column prop='password' label='密码' />
       <el-table-column fixed='right' label='操作' width='200'>

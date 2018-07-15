@@ -55,7 +55,15 @@ export default {
   // 我们为什么需要缓存？假设我们有一个性能开销比较大的计算属性 A，它需要遍历一个巨大的数组并做大量的计算。然后我们可能有其他的计算属性依赖于 A 。如果没有缓存，我们将不可避免的多次执行 A 的 getter！如果你不希望有缓存，请用方法来替代。
   computed: {
     user() {
-      return this.$store.state.user;
+      var u = this.$store.state.user;
+      if (u == undefined || u == null) {
+        return {
+          usertype: "",
+          username: ""
+        };
+      } else {
+        return u;
+      }
     }
   },
   methods: {
@@ -78,6 +86,10 @@ export default {
         .put("/password", editPasswordMsg)
         .then(res => {
           if (res.data.restype == "success") {
+            this.pwdFormModel = {
+              pwdOld: null,
+              pwdNew: null
+            };
             this.$message({
               type: "success",
               message: "修改密码成功",

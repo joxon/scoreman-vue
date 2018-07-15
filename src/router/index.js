@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store'
 
 import PasswordEdit from '@/components/PasswordEdit.vue'
 
@@ -10,10 +11,14 @@ import Admin from '@/pages/Admin.vue'
 import AdminStudents from '@/pages/AdminStudents.vue'
 import AdminTeachers from '@/pages/AdminTeachers.vue'
 import AdminCourses from '@/pages/AdminCourses.vue'
+import {
+  Store
+} from '../../node_modules/vuex';
 
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
+  mode: 'history',
   routes: [{
     path: '/',
     redirect: '/login'
@@ -34,6 +39,9 @@ export default new Router({
   }, {
     path: '/admin',
     component: Admin,
+    meta: {
+      requireAdmin: true
+    },
     redirect: '/admin/student',
     children: [{
         path: 'student',
@@ -57,3 +65,22 @@ export default new Router({
     component: Page404
   }]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(res => res.meta.requireAdmin)) {
+    if (store.state.user.usertype == "admin") {
+      next();
+    } else {
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
+      });
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;

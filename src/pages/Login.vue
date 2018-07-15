@@ -108,6 +108,7 @@ export default {
               }
             })
             .catch(err => {
+              console.log(err);
               this.$message({
                 type: "error",
                 message: "网络超时",
