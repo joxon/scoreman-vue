@@ -11,9 +11,6 @@ import Admin from '@/pages/Admin.vue'
 import AdminStudents from '@/pages/AdminStudents.vue'
 import AdminTeachers from '@/pages/AdminTeachers.vue'
 import AdminCourses from '@/pages/AdminCourses.vue'
-import {
-  Store
-} from '../../node_modules/vuex';
 
 import Student from '@/pages/Student.vue'
 import StudentScore from '@/pages/StudentScore.vue'
@@ -83,7 +80,7 @@ var router = new Router({
     {
       path: '/admin',
       component: Admin,
-      redirect: '/admin/students',
+      redirect: '/admin/student',
       children: [{
         path: 'student',
         component: AdminStudents

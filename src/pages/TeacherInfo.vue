@@ -20,33 +20,40 @@
 <script>
   export default {
     name: "TeacherInfo",
-    data(){
-      return{
+
+    data() {
+      return {
         info: {
-          tID: '加载中',
-          tName: '加载中',
-          sex: '加载中',
-          email: '加载中'
+          tID: "加载中",
+          tName: "加载中",
+          sex: "加载中",
+          email: "加载中"
         }
-      }
+      };
     },
+
     name: "StudentScore",
+
     created: function () {
       this.getInfo();
     },
+
     methods: {
       getInfo() {
         console.log(this.$store.state.user.username);
-        this.$http.get("/tea/mInfo?tID="+this.$store.state.user.username)
+        this.$http
+          .get("/tea/mInfo?tID=" + this.$store.state.user.username)
           .then(res => {
             console.log(res);
             this.info = res.data;
           });
-      },
-    },
-  }
+      }
+    }
+  };
+
 </script>
 
 <style scoped>
+
 
 </style>

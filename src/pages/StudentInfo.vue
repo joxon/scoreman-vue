@@ -18,35 +18,40 @@
 </template>
 
 <script>
-    export default {
-        name: "StudentInfo",
-        data(){
-          return{
-            info:{
-              classno: '加载中',
-              sID: '加载中',
-              sName: '加载中',
-              sex: '加载中'
-            }
-          }
-        },
-      name: "StudentScore",
-      created: function () {
-        this.getInfo();
-      },
-      methods: {
-        getInfo() {
-          console.log();
-          this.$http.get("/stu?sID="+this.$store.state.user.username)
-            .then(res => {
-              console.log(res);
-              this.info = res.data;
-            });
-        },
-      },
+  export default {
+    name: "StudentInfo",
+
+    data() {
+      return {
+        info: {
+          classno: "加载中",
+          sID: "加载中",
+          sName: "加载中",
+          sex: "加载中"
+        }
+      };
+    },
+
+    name: "StudentScore",
+
+    created: function () {
+      this.getInfo();
+    },
+    
+    methods: {
+      getInfo() {
+        this.$http
+          .get("/stu?sID=" + this.$store.state.user.username)
+          .then(res => {
+            this.info = res.data;
+          });
+      }
     }
+  };
+
 </script>
 
 <style scoped>
+
 
 </style>

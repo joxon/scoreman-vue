@@ -3,13 +3,11 @@
     <el-button-group>
       <el-dropdown @command="chooseCourse">
         <el-button type="success">
-          {{curCourse.cName}}<i class="el-icon-arrow-down el-icon--right"></i>
+          {{curCourse.cName}}
+          <i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="(item, index) in courseInfo"
-                            :key="item.id"
-                            :command="index"
-          >{{item.cName}}</el-dropdown-item>
+          <el-dropdown-item v-for="(item, index) in courseInfo" :key="item.id" :command="index">{{item.cName}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button type='primary' icon='el-icon-refresh' @click='getStudents()'>刷新</el-button>
@@ -19,7 +17,7 @@
 
     <el-dialog :title='stuFormTitle' :visible.sync='stuFormVisible'>
       <el-form ref='stuForm' :rules='stuFormRules' :model='stuFormModel' label-width="80px">
-        <el-form-item prop='sID' label='学生号' >
+        <el-form-item prop='sID' label='学生号'>
           <el-input v-model='stuFormModel.sID'>
             <template slot="prepend">S</template>
           </el-input>
@@ -51,56 +49,55 @@
     data() {
       return {
         selectedStudents: [],
-        stuTableData: [
+        stuTableData: [{
+          sID: "加载中",
+          sName: "加载中",
+          classno: "加载中"
+        }],
+        courseInfo: [{
+            cName: "00",
+            cID: "0"
+          },
           {
-            sID: "加载中",
-            sName: "加载中",
-            classno: "加载中",
+            cName: "01",
+            cID: "1"
+          },
+          {
+            cName: "02",
+            cID: "2"
+          },
+          {
+            cName: "03",
+            cID: "5"
           }
         ],
-        courseInfo: [{
-          cName: "00",
-          cID: '0'
-        }, {
-          cName: "01",
-          cID: '1'
-        }, {
-          cName: "02",
-          cID: '2'
-        }, {
-          cName: "03",
-          cID: '5'
-        },
-        ],
-        curCourse: '',
+        curCourse: "",
         stuFormRules: {
-          sID: [
-            {
-              required: true,
-              message: "学生号不能为空",
-              trigger: "blur"
-            }
-          ]
+          sID: [{
+            required: true,
+            message: "学生号不能为空",
+            trigger: "blur"
+          }]
         },
         stuFormVisible: false,
         stuFormTitle: "新增学生",
         stuFormModel: {
-          sID: "",
+          sID: ""
         }
       };
     },
 
-    created: function() {
+    created: function () {
       this.getCourse();
     },
 
     methods: {
-      getCourse: function(){
-
-        this.$http.get("/tea/cInfo?tID="+this.$store.state.user.username)
+      getCourse: function () {
+        this.$http
+          .get("/tea/cInfo?tID=" + this.$store.state.user.username)
           .then(res => {
             //console.log(res);
-            this.courseInfo=res.data;
+            this.courseInfo = res.data;
             this.curCourse = this.courseInfo[0];
             this.getStudents();
           });
@@ -143,11 +140,15 @@
 
       getStudents() {
         this.$http
-          .get("/tea/getGradeByCID?cID="+this.curCourse.cID+
-            '&tID='+this.$store.state.user.username)
+          .get(
+            "/tea/getGradeByCID?cID=" +
+            this.curCourse.cID +
+            "&tID=" +
+            this.$store.state.user.username
+          )
           .then(res => {
             console.log(res);
-            this.stuTableData=res.data;
+            this.stuTableData = res.data;
           })
           .catch(err => {
             this.$message({
@@ -174,8 +175,14 @@
       addStudent(student) {
         this.hideStuForm();
         this.$http
-          .put("/tea/takeAdd/"+ this.$store.state.user.username
-            +"/"+ student.sID+ "/" +this.curCourse.cID)
+          .put(
+            "/tea/takeAdd/" +
+            this.$store.state.user.username +
+            "/" +
+            student.sID +
+            "/" +
+            this.curCourse.cID
+          )
           .then(res => {
             console.log(res);
             if (res.data == "成功") {
@@ -229,8 +236,14 @@
 
       delStudent(sID) {
         this.$http
-          .delete("/tea/takeDelete/"+ this.$store.state.user.username
-            +"/"+ sID+ "/" +this.curCourse.cID)
+          .delete(
+            "/tea/takeDelete/" +
+            this.$store.state.user.username +
+            "/" +
+            sID +
+            "/" +
+            this.curCourse.cID
+          )
           .then(res => {
             //console.log(res);
             if (res.data == "成功") {
@@ -262,4 +275,5 @@
       }
     }
   };
+
 </script>

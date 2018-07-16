@@ -1,17 +1,14 @@
 <template>
   <el-container direction='vertical'>
 
-
     <el-button-group>
       <el-dropdown @command="chooseCourse">
         <el-button type="success">
-          {{curCourse.cName}}<i class="el-icon-arrow-down el-icon--right"></i>
+          {{curCourse.cName}}
+          <i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="(item, index) in courseInfo"
-                            :key="item.id"
-                            :command="index"
-          >{{item.cName}}</el-dropdown-item>
+          <el-dropdown-item v-for="(item, index) in courseInfo" :key="item.id" :command="index">{{item.cName}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button type='primary' icon='el-icon-circle-plus' @click='addScore()'>添加成绩</el-button>
@@ -19,10 +16,10 @@
 
     <el-dialog :title='teaFormTitle' :visible.sync='teaFormVisible'>
       <el-form ref='teaForm' :rules='teaFormRules' :model='teaFormModel' label-width="80px">
-        <el-form-item prop='sID' label='学生号' >
+        <el-form-item prop='sID' label='学生号'>
           <el-input :disabled="isEdit" v-model='teaFormModel.sID'></el-input>
         </el-form-item>
-        <el-form-item prop='grade' label='成绩' >
+        <el-form-item prop='grade' label='成绩'>
           <el-input v-model='teaFormModel.score'></el-input>
         </el-form-item>
       </el-form>
@@ -34,10 +31,10 @@
     </el-dialog>
 
     <el-table :data='score' stripe max-height='500'>
-      <el-table-column sortable prop='sID' label='学号' width='90'/>
-      <el-table-column prop='sName' label='姓名' width='70'/>
-      <el-table-column prop='classno' label='班级' width='100'/>
-      <el-table-column prop='grade' label='成绩' width='50'/>
+      <el-table-column sortable prop='sID' label='学号' width='90' />
+      <el-table-column prop='sName' label='姓名' width='70' />
+      <el-table-column prop='classno' label='班级' width='100' />
+      <el-table-column prop='grade' label='成绩' width='50' />
       <el-table-column fixed='right' label='操作' width='200'>
         <template slot-scope="scope">
           <el-button icon="el-icon-edit" size="mini" @click="editScore(scope.$index, scope.row)">编辑</el-button>
@@ -51,66 +48,59 @@
 <script>
   export default {
     name: "TeacherScore",
+    
     data() {
       return {
         score: [{
-          sID: '',
-          sName: '',
-          classno: '',
-          grade: ''
+          sID: "",
+          sName: "",
+          classno: "",
+          grade: ""
         }],
         courseInfo: [{
           cName: "",
-          cID: ''
+          cID: ""
         }],
-        curCourse: '',
-        teaFormVisible:false,
-        teaFormTitle:'',
-        isAdd:'false',
-        isEdit:'false',
+        curCourse: "",
+        teaFormVisible: false,
+        teaFormTitle: "",
+        isAdd: "false",
+        isEdit: "false",
         teaFormModel: {
           sID: "",
           sName: "",
           classno: "",
-          score:''
+          score: ""
         },
         teaFormRules: {
-          sID: [
-            {
-              required: true,
-              message: "学生号不能为空",
-              trigger: "blur"
-            }
-          ],
-          sName: [
-            {
-              required: true,
-              message: "学生姓名不能为空",
-              trigger: "blur"
-            }
-          ],
-          classno: [
-            {
-              required: true,
-              message: "班级不能为空",
-              trigger: "blur"
-            }
-          ],
-          score: [
-            {
-              required: true,
-              message: "成绩不能为空",
-              trigger: "blur"
-            }
-          ]
+          sID: [{
+            required: true,
+            message: "学生号不能为空",
+            trigger: "blur"
+          }],
+          sName: [{
+            required: true,
+            message: "学生姓名不能为空",
+            trigger: "blur"
+          }],
+          classno: [{
+            required: true,
+            message: "班级不能为空",
+            trigger: "blur"
+          }],
+          score: [{
+            required: true,
+            message: "成绩不能为空",
+            trigger: "blur"
+          }]
         },
-        scoreModel:{
-          tID:'',
-          sID:'',
-          cID:'',
-          newGrade:''
-        },
-      }
+        scoreModel: {
+          tID: "",
+          sID: "",
+          cID: "",
+          newGrade: ""
+        }
+      };
     },
 
     created: function () {
@@ -118,24 +108,29 @@
     },
 
     methods: {
-      getCourse: function(){
-
-        this.$http.get("/tea/cInfo?tID="+this.$store.state.user.username)
+      getCourse: function () {
+        this.$http
+          .get("/tea/cInfo?tID=" + this.$store.state.user.username)
           .then(res => {
             //console.log(res);
-            this.courseInfo=res.data;
+            this.courseInfo = res.data;
             this.curCourse = this.courseInfo[0];
             this.getScore();
           });
       },
 
       getScore: function () {
-        console.log('getScore cID=' + this.curCourse.cID);
-        this.$http.get("/tea/getGradeByCID?tID="+this.$store.state.user.username+
-                        "&cID="+this.curCourse.cID)
+        console.log("getScore cID=" + this.curCourse.cID);
+        this.$http
+          .get(
+            "/tea/getGradeByCID?tID=" +
+            this.$store.state.user.username +
+            "&cID=" +
+            this.curCourse.cID
+          )
           .then(res => {
             console.log(res);
-            this.score=res.data;
+            this.score = res.data;
           });
       },
 
@@ -145,112 +140,108 @@
         this.getScore();
       },
 
-      hideStuForm:function(){
-        this.teaFormVisible=false;
+      hideStuForm: function () {
+        this.teaFormVisible = false;
       },
 
-      editScore:function(index,row){
-        this.teaFormTitle='编辑成绩';
-        this.isEdit=true;
-        this.isAdd=false;
-        this.teaFormVisible=true;
-        this.teaFormModel=this.score[index];
+      editScore: function (index, row) {
+        this.teaFormTitle = "编辑成绩";
+        this.isEdit = true;
+        this.isAdd = false;
+        this.teaFormVisible = true;
+        this.teaFormModel = this.score[index];
       },
 
-      addScore:function(index,row){
+      addScore: function (index, row) {
         //console.log(index);
         //console.log(row);
-        this.teaFormTitle='添加成绩';
-        this.isEdit=false;
-        this.isAdd=true;
-        this.teaFormVisible=true;
-        this.teaFormModel={
+        this.teaFormTitle = "添加成绩";
+        this.isEdit = false;
+        this.isAdd = true;
+        this.teaFormVisible = true;
+        this.teaFormModel = {
           sID: "",
           sName: "",
           classno: "",
-          score:''
+          score: ""
         };
       },
 
-      commitEdit:function(){
+      commitEdit: function () {
         this.$refs.teaForm.validate(valid => {
           if (valid) {
-            console.log('edit');
+            console.log("edit");
             this.teaFormVisible = false;
 
-            this.scoreModel.tID=this.$store.state.user.username;
-            this.scoreModel.sID=this.teaFormModel.sID;
-            this.scoreModel.cID=this.curCourse.cID;
-            this.scoreModel.newGrade=this.teaFormModel.score;
+            this.scoreModel.tID = this.$store.state.user.username;
+            this.scoreModel.sID = this.teaFormModel.sID;
+            this.scoreModel.cID = this.curCourse.cID;
+            this.scoreModel.newGrade = this.teaFormModel.score;
 
-            this.$http.post("/tea/editGrade",this.scoreModel)
-              .then(res => {
-                if (res.data == "成功") {
-                  this.$message({
-                    type: "success",
-                    message: "编辑成绩成功",
-                    showClose: true,
-                    center: true
-                  });
-                  this.getScore();
-                } else {
-                  this.$message({
-                    type: "error",
-                    message: "编辑学生失败",
-                    showClose: true,
-                    center: true
-                  });
-                }
-              });
-
-          }
-          else {
+            this.$http.post("/tea/editGrade", this.scoreModel).then(res => {
+              if (res.data == "成功") {
+                this.$message({
+                  type: "success",
+                  message: "编辑成绩成功",
+                  showClose: true,
+                  center: true
+                });
+                this.getScore();
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "编辑学生失败",
+                  showClose: true,
+                  center: true
+                });
+              }
+            });
+          } else {
             return false;
           }
         });
       },
 
-      commitAdd:function(){
-          this.$refs.teaForm.validate(valid => {
-            if (valid) {
-              console.log('add');
-              this.teaFormVisible = false;
+      commitAdd: function () {
+        this.$refs.teaForm.validate(valid => {
+          if (valid) {
+            console.log("add");
+            this.teaFormVisible = false;
 
-              this.scoreModel.tID=this.$store.state.user.username;
-              this.scoreModel.sID=this.teaFormModel.sID;
-              this.scoreModel.cID=this.curCourse.cID;
-              this.scoreModel.newGrade=this.teaFormModel.score;
+            this.scoreModel.tID = this.$store.state.user.username;
+            this.scoreModel.sID = this.teaFormModel.sID;
+            this.scoreModel.cID = this.curCourse.cID;
+            this.scoreModel.newGrade = this.teaFormModel.score;
 
-              this.$http.put("/tea/newGrade",this.scoreModel)
-                .then(res => {
-                  if (res.data == "成功") {
-                    this.$message({
-                      type: "success",
-                      message: "编辑成绩成功",
-                      showClose: true,
-                      center: true
-                    });
-                    this.getScore();
-                  } else {
-                    this.$message({
-                      type: "error",
-                      message: "编辑学生失败",
-                      showClose: true,
-                      center: true
-                    });
-                  }
+            this.$http.put("/tea/newGrade", this.scoreModel).then(res => {
+              if (res.data == "成功") {
+                this.$message({
+                  type: "success",
+                  message: "编辑成绩成功",
+                  showClose: true,
+                  center: true
                 });
-
-            } else {
-              return false;
-            }
-          });
+                this.getScore();
+              } else {
+                this.$message({
+                  type: "error",
+                  message: "编辑学生失败",
+                  showClose: true,
+                  center: true
+                });
+              }
+            });
+          } else {
+            return false;
+          }
+        });
       }
-    },
+    }
+  };
 
-  }
 </script>
 
 <style scoped>
+
 
 </style>

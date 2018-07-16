@@ -12,7 +12,7 @@
         <router-view/>
       </el-main>
 
-      <el-footer style="height:100px;">
+      <el-footer style="height:60px;">
         <p>Powered by Vue.js 2 + Express.js</p>
         <p>Copyright © 2018, @Joxon, @Anselm</p>
       </el-footer>
@@ -70,6 +70,10 @@ export default {
   width: 100%;
   height: 100px;
   text-align: center;
+}
+
+.el-footer > p{
+  font-size: x-small;
 }
 
 html {

@@ -140,7 +140,6 @@ export default {
 
 <style lang="scss" type="text/scss">
 @import "./Login.scss";
-
 #login-button {
   width: 70%;
 }
