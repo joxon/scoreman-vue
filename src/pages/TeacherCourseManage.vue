@@ -22,13 +22,7 @@
         <el-form-item prop='sID' label='学生号' >
           <el-input :disabled="isEdit" v-model='teaFormModel.sID'></el-input>
         </el-form-item>
-        <el-form-item prop='sName' label='姓名' >
-          <el-input :disabled="isEdit" v-model='teaFormModel.sName'></el-input>
-        </el-form-item>
-        <el-form-item prop='classno' label='班级' >
-          <el-input :disabled="isEdit" v-model='teaFormModel.classno'></el-input>
-        </el-form-item>
-        <el-form-item prop='score' label='成绩' >
+        <el-form-item prop='grade' label='成绩' >
           <el-input v-model='teaFormModel.score'></el-input>
         </el-form-item>
       </el-form>
@@ -43,7 +37,7 @@
       <el-table-column sortable prop='sID' label='学号' width='90'/>
       <el-table-column prop='sName' label='姓名' width='70'/>
       <el-table-column prop='classno' label='班级' width='100'/>
-      <el-table-column prop='score' label='成绩' width='50'/>
+      <el-table-column prop='grade' label='成绩' width='50'/>
       <el-table-column fixed='right' label='操作' width='200'>
         <template slot-scope="scope">
           <el-button icon="el-icon-edit" size="mini" @click="editScore(scope.$index, scope.row)">编辑</el-button>
@@ -60,25 +54,15 @@
     data() {
       return {
         score: [{
-          sID: '1',
-          sName: '1',
-          classno: '1',
-          score: '1'
+          sID: '',
+          sName: '',
+          classno: '',
+          grade: ''
         }],
         courseInfo: [{
-          cName: "00",
-          cID: '0'
-        }, {
-          cName: "01",
-          cID: '1'
-        }, {
-          cName: "02",
-          cID: '2'
-        }, {
-          cName: "03",
-          cID: '5'
-        },
-        ],
+          cName: "",
+          cID: ''
+        }],
         curCourse: '',
         teaFormVisible:false,
         teaFormTitle:'',
@@ -120,17 +104,39 @@
             }
           ]
         },
+        scoreModel:{
+          tID:'',
+          sID:'',
+          cID:'',
+          newGrade:''
+        },
       }
     },
 
     created: function () {
-      this.curCourse = this.courseInfo[0];
-      this.getScore();
+      this.getCourse();
     },
 
     methods: {
+      getCourse: function(){
+
+        this.$http.get("/tea/cInfo?tID="+this.$store.state.user.username)
+          .then(res => {
+            //console.log(res);
+            this.courseInfo=res.data;
+            this.curCourse = this.courseInfo[0];
+            this.getScore();
+          });
+      },
+
       getScore: function () {
         console.log('getScore cID=' + this.curCourse.cID);
+        this.$http.get("/tea/getGradeByCID?tID="+this.$store.state.user.username+
+                        "&cID="+this.curCourse.cID)
+          .then(res => {
+            console.log(res);
+            this.score=res.data;
+          });
       },
 
       chooseCourse: function (i) {
@@ -171,10 +177,34 @@
           if (valid) {
             console.log('edit');
             this.teaFormVisible = false;
-            console.log(this.teaFormModel);
-            console.log(this.curCourse)
 
-          } else {
+            this.scoreModel.tID=this.$store.state.user.username;
+            this.scoreModel.sID=this.teaFormModel.sID;
+            this.scoreModel.cID=this.curCourse.cID;
+            this.scoreModel.newGrade=this.teaFormModel.score;
+
+            this.$http.post("/tea/editGrade",this.scoreModel)
+              .then(res => {
+                if (res.data == "成功") {
+                  this.$message({
+                    type: "success",
+                    message: "编辑成绩成功",
+                    showClose: true,
+                    center: true
+                  });
+                  this.getScore();
+                } else {
+                  this.$message({
+                    type: "error",
+                    message: "编辑学生失败",
+                    showClose: true,
+                    center: true
+                  });
+                }
+              });
+
+          }
+          else {
             return false;
           }
         });
@@ -185,8 +215,32 @@
             if (valid) {
               console.log('add');
               this.teaFormVisible = false;
-              console.log(this.teaFormModel);
-              console.log(this.curCourse)
+
+              this.scoreModel.tID=this.$store.state.user.username;
+              this.scoreModel.sID=this.teaFormModel.sID;
+              this.scoreModel.cID=this.curCourse.cID;
+              this.scoreModel.newGrade=this.teaFormModel.score;
+
+              this.$http.put("/tea/newGrade",this.scoreModel)
+                .then(res => {
+                  if (res.data == "成功") {
+                    this.$message({
+                      type: "success",
+                      message: "编辑成绩成功",
+                      showClose: true,
+                      center: true
+                    });
+                    this.getScore();
+                  } else {
+                    this.$message({
+                      type: "error",
+                      message: "编辑学生失败",
+                      showClose: true,
+                      center: true
+                    });
+                  }
+                });
+
             } else {
               return false;
             }

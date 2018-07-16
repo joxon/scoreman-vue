@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '@/store'
 
-import UserInfo from '@/components/UserInfo.vue'
+import PasswordEdit from '@/components/PasswordEdit.vue'
 
 import Login from '@/pages/Login.vue'
 import Page404 from '@/pages/404.vue'
@@ -10,6 +11,9 @@ import Admin from '@/pages/Admin.vue'
 import AdminStudents from '@/pages/AdminStudents.vue'
 import AdminTeachers from '@/pages/AdminTeachers.vue'
 import AdminCourses from '@/pages/AdminCourses.vue'
+import {
+  Store
+} from '../../node_modules/vuex';
 
 import Student from '@/pages/Student.vue'
 import StudentScore from '@/pages/StudentScore.vue'
@@ -22,7 +26,8 @@ import TeacherInfo from '@/pages/TeacherInfo.vue'
 
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
+  mode: 'history',
   routes: [{
     path: '/',
     redirect: '/login'
@@ -42,8 +47,8 @@ export default new Router({
         component: StudentScore
       },
         {
-          path: 'userinfo',
-          component: UserInfo
+          path: 'PasswordEdit',
+          component: PasswordEdit
         },
         {
           path: 'info',
@@ -69,8 +74,8 @@ export default new Router({
           component: TeacherInfo
         },
         {
-          path: 'userinfo',
-          component: UserInfo
+          path: 'PasswordEdit',
+          component: PasswordEdit
         }
       ]
     },
@@ -80,24 +85,43 @@ export default new Router({
       component: Admin,
       redirect: '/admin/students',
       children: [{
-        path: 'students',
+        path: 'student',
         component: AdminStudents
       },
-        {
-          path: 'teachers',
-          component: AdminTeachers
-        },
-        {
-          path: 'courses',
-          component: AdminCourses
-        },
-        {
-          path: 'userinfo',
-          component: UserInfo
-        }
-      ]
-    }, {
-      path: '*',
-      component: Page404
-    }]
+      {
+        path: 'teacher',
+        component: AdminTeachers
+      },
+      {
+        path: 'course',
+        component: AdminCourses
+      },
+      {
+        path: 'password',
+        component: PasswordEdit
+      }
+    ]
+  }, {
+    path: '*',
+    component: Page404
+  }]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(res => res.meta.requireAdmin)) {
+    if (store.state.user.usertype == "admin") {
+      next();
+    } else {
+      next({
+        path: '/login',
+        query: {
+          redirect: to.fullPath
+        }
+      });
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;

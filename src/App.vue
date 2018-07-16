@@ -7,15 +7,16 @@
       </el-container>
     </el-header>
 
-    <el-container>
+    <!-- <el-container> -->
       <el-main>
         <router-view/>
       </el-main>
-      
-      <el-footer>
-        <p>Copyright © 2018, @Joxon, @Awesomeyyy</p>
+
+      <el-footer style="height:100px;">
+        <p>Powered by Vue.js 2 + Express.js</p>
+        <p>Copyright © 2018, @Joxon, @Anselm</p>
       </el-footer>
-    </el-container>
+    <!-- </el-container> -->
 
   </el-container>
 </template>
@@ -50,6 +51,7 @@ export default {
 </script>
 
 <style>
+
 .el-header {
   background-color: rgb(0, 174, 255);
   color: white;
@@ -67,6 +69,7 @@ export default {
   bottom: 0;
   width: 100%;
   height: 100px;
+  text-align: center;
 }
 
 html {

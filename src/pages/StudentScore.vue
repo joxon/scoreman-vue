@@ -22,7 +22,9 @@
           .then(res => {
             console.log(res);
           this.tableData = res.data;
-        });
+        }).catch(err => {
+          console.log(err);
+        })
       },
     },
     data() {

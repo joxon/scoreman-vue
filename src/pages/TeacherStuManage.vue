@@ -91,11 +91,21 @@
     },
 
     created: function() {
-      this.curCourse = this.courseInfo[0];
-      this.getStudents();
+      this.getCourse();
     },
 
     methods: {
+      getCourse: function(){
+
+        this.$http.get("/tea/cInfo?tID="+this.$store.state.user.username)
+          .then(res => {
+            //console.log(res);
+            this.courseInfo=res.data;
+            this.curCourse = this.courseInfo[0];
+            this.getStudents();
+          });
+      },
+
       chooseCourse: function (i) {
         console.log("index=" + i);
         this.curCourse = this.courseInfo[i];
@@ -133,9 +143,11 @@
 
       getStudents() {
         this.$http
-          .get("/admin/student")
+          .get("/tea/getGradeByCID?cID="+this.curCourse.cID+
+            '&tID='+this.$store.state.user.username)
           .then(res => {
-            this.stuTableData = res.data;
+            console.log(res);
+            this.stuTableData=res.data;
           })
           .catch(err => {
             this.$message({
@@ -162,9 +174,11 @@
       addStudent(student) {
         this.hideStuForm();
         this.$http
-          .post("/admin/student", student)
+          .put("/tea/takeAdd/"+ this.$store.state.user.username
+            +"/"+ student.sID+ "/" +this.curCourse.cID)
           .then(res => {
-            if (res.data.restype == "success") {
+            console.log(res);
+            if (res.data == "成功") {
               this.$message({
                 type: "success",
                 message: "添加学生成功",
@@ -215,9 +229,11 @@
 
       delStudent(sID) {
         this.$http
-          .delete("/admin/student/" + sID)
+          .delete("/tea/takeDelete/"+ this.$store.state.user.username
+            +"/"+ sID+ "/" +this.curCourse.cID)
           .then(res => {
-            if (res.data.restype == "success") {
+            //console.log(res);
+            if (res.data == "成功") {
               this.$message({
                 type: "success",
                 message: "删除学生成功",

@@ -4,7 +4,7 @@
       <el-menu default-active="/student/score" router>
         <el-menu-item index="/student/score">成绩查询</el-menu-item>
         <el-menu-item index="/student/info">个人信息</el-menu-item>
-        <el-menu-item index="/student/userinfo">修改密码</el-menu-item>
+        <el-menu-item index="/student/PasswordEdit">修改密码</el-menu-item>
       </el-menu>
     </el-aside>
 
