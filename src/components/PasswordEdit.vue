@@ -2,21 +2,23 @@
   <el-row type='flex' width='100px'>
 
     <el-form ref='pwdForm' :model='pwdFormModel' label-width='80px'>
-      <el-form-item label='类型'>
-        <el-tag>{{ user.usertype }}</el-tag>
-      </el-form-item>
-      <el-form-item label='账号'>
-        <el-tag>{{ user.username }}</el-tag>
-      </el-form-item>
-      <el-form-item label='旧密码' prop='pwdOld'>
-        <el-input type='password' clearable placeholder='请输入旧密码' v-model='pwdFormModel.pwdOld'></el-input>
-      </el-form-item>
-      <el-form-item label='新密码' prop='pwdNew'>
-        <el-input type='password' clearable placeholder='请输入新密码' v-model='pwdFormModel.pwdNew'></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type='primary' @click='handleEditPassword()'>更新密码</el-button>
-      </el-form-item>
+      <div class="FormPwdEditFields">
+        <el-form-item label='类型'>
+          <el-tag>{{ user.usertype }}</el-tag>
+        </el-form-item>
+        <el-form-item label='账号'>
+          <el-tag>{{ user.username }}</el-tag>
+        </el-form-item>
+        <el-form-item label='旧密码' prop='pwdOld'>
+          <el-input type='password' clearable placeholder='请输入旧密码' v-model='pwdFormModel.pwdOld'></el-input>
+        </el-form-item>
+        <el-form-item label='新密码' prop='pwdNew'>
+          <el-input type='password' clearable placeholder='请输入新密码' v-model='pwdFormModel.pwdNew'></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type='primary' @click='handleEditPassword()'>更新密码</el-button>
+        </el-form-item>
+      </div>
     </el-form>
 
   </el-row>
@@ -115,3 +117,15 @@ export default {
   }
 };
 </script>
+
+<style>
+.FormPwdEditFields {
+  width: 300px;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 15px;
+}
+</style>
