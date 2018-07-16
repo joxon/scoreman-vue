@@ -1,16 +1,26 @@
 <template>
   <el-row type='flex' justify='center'>
-    <el-form ref='loginForm' :model='loginFormModel' :rules='loginFormRules' status-icon>
-      <el-form-item prop='username'>
-        <el-input placeholder='用户名' v-model='loginFormModel.username' @keyup.enter.native='submitForm("loginForm")'></el-input>
-      </el-form-item>
-      <el-form-item prop='password'>
-        <el-input placeholder='密码' v-model='loginFormModel.password' type='password' @keyup.enter.native='submitForm("loginForm")'></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button id='login-button' type='success' icon='el-icon-check' @click='submitForm("loginForm")'>登录</el-button>
-        <el-button id='reset-button' type='danger' icon='el-icon-close' @click='resetForm("loginForm")'>清空</el-button>
-      </el-form-item>
+    <el-form class="Form" ref='loginForm' :model='loginFormModel' :rules='loginFormRules' status-icon>
+      <h1 class="Form-title">登录</h1>
+      <p class="Form-description">请验证身份</p>
+
+      <div class="Form-fields">
+        <label class="Control-label">用户名</label>
+        <el-form-item prop='username'>
+          <el-input class="ControlInput" placeholder='请输入用户名' v-model='loginFormModel.username' @keyup.enter.native='submitForm("loginForm")'></el-input>
+        </el-form-item>
+
+        <label class="Control-label">密码</label>
+        <el-form-item prop='password'>
+          <el-input class="ControlInput" placeholder='请输入密码' v-model='loginFormModel.password' type='password' @keyup.enter.native='submitForm("loginForm")'></el-input>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button id='login-button' type='success' icon='el-icon-check' @click='submitForm("loginForm")'>登录</el-button>
+          <el-button id='reset-button' type='danger' icon='el-icon-close' @click='resetForm("loginForm")'>清空</el-button>
+        </el-form-item>
+      </div>
+
     </el-form>
   </el-row>
 </template>
@@ -128,11 +138,10 @@ export default {
 };
 </script>
 
-<style>
-/* #login-button {
-  width: 50%;
+<style lang="scss" type="text/scss">
+@import "./Login.scss";
+
+#login-button {
+  width: 70%;
 }
-#reset-button {
-  width: 50%;
-} */
 </style>
