@@ -148,11 +148,8 @@
           )
           .then(res => {
             console.log(res);
-            if(res.data != '')
-              this.stuTableData=res.data;
-            else
-              this.stuTabl
-            eData='';
+            this.stuTableData=res.data;
+
           })
           .catch(err => {
             this.$message({

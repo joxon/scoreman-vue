@@ -1,4 +1,3 @@
-
 <template>
   <el-container direction='vertical'>
     <el-button-group>
@@ -8,7 +7,8 @@
           <i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item v-for="(item, index) in courseInfo" :key="item.id" :command="index">{{item.cName}}</el-dropdown-item>
+          <el-dropdown-item v-for="(item, index) in courseInfo" :key="item.id" :command="index">{{item.cName}}
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-button type='primary' icon='el-icon-circle-plus' @click='addScore()'>添加成绩</el-button>
@@ -31,10 +31,10 @@
     </el-dialog>
 
     <el-table :data='score' stripe max-height='500'>
-      <el-table-column sortable prop='sID' label='学号' width='90' />
-      <el-table-column prop='sName' label='姓名' width='70' />
-      <el-table-column prop='classno' label='班级' width='100' />
-      <el-table-column prop='grade' label='成绩' width='50' />
+      <el-table-column sortable prop='sID' label='学号' width='90'/>
+      <el-table-column prop='sName' label='姓名' width='70'/>
+      <el-table-column prop='classno' label='班级' width='100'/>
+      <el-table-column prop='grade' label='成绩' width='50'/>
       <el-table-column fixed='right' label='操作' width='200'>
         <template slot-scope="scope">
           <el-button icon="el-icon-edit" size="mini" @click="editScore(scope.$index, scope.row)">编辑</el-button>
@@ -42,9 +42,9 @@
       </el-table-column>
     </el-table>
 
-      <bar-chart ref="barchart" :chart-data="barChartData"
-                 :options="{responsive: true, maintainAspectRatio: false}">
-      </bar-chart>
+    <bar-chart ref="barchart" :chart-data="barChartData"
+               :options="{responsive: true, maintainAspectRatio: false}">
+    </bar-chart>
 
     <pie-chart ref="piechart" :chart-data="pieChartData"
                :options="{responsive: true, maintainAspectRatio: false}">
@@ -59,13 +59,13 @@
   import PieChart from '@/components/PieChart.js'
 
   export default {
-    components:{BarChart,PieChart},
+    components: {BarChart, PieChart},
     name: "TeacherScore",
-    
+
     data() {
       return {
-        barChartData:{
-          labels: ['0-60分','60-70分','70-80分','80-90分','90-100分'],
+        barChartData: {
+          labels: ['0-60分', '60-70分', '70-80分', '80-90分', '90-100分'],
           datasets: [
             {
               label: '学生成绩分布',
@@ -74,8 +74,8 @@
             }
           ]
         },
-        pieChartData:{
-          labels: ['0-60分','60-70分','70-80分','80-90分','90-100分'],
+        pieChartData: {
+          labels: ['0-60分', '60-70分', '70-80分', '80-90分', '90-100分'],
           datasets: [
             {
               backgroundColor: [
@@ -158,40 +158,42 @@
       },
 
       getScore: function () {
-        console.log("getScore cID=" + this.curCourse.cID);
+        //console.log("getScore cID=" + this.curCourse.cID);
         this.$http
           .get(
             "/tea/getGradeByCID?tID=" +
             this.$store.state.user.username +
-            "&cID=" +
-            this.curCourse.cID
+            "&cID=" + this.curCourse.cID
           )
           .then(res => {
             console.log(res);
             this.score = res.data;
           });
-        this.$http.get("/tea/pic?tID="+this.$store.state.user.username+
-          "&cID="+this.curCourse.cID)
+        this.$http.get("/tea/pic?tID=" + this.$store.state.user.username +
+          "&cID=" + this.curCourse.cID)
           .then(res => {
-            this.pieChartData.datasets[0].data=res.data;
-            this.$refs.piechart.update();
-            this.barChartData.datasets[0].data=res.data;
-            this.$refs.barchart.update();
-            //console.log(this.pieChartData.datasets.data);
-            //console.log(this.barChartData.datasets.data);
-
-          });
+              this.pieChartData.datasets[0].data = res.data;
+              this.barChartData.datasets[0].data = res.data;
+              this.$refs.piechart.update();
+              this.$refs.barchart.update();
+              //console.log(this.pieChartData.datasets.data);
+              //console.log(this.barChartData.datasets.data);
+            }
+          )
+        ;
       },
 
       chooseCourse: function (i) {
         console.log("index=" + i);
         this.curCourse = this.courseInfo[i];
         this.getScore();
-      },
+      }
+      ,
 
       hideStuForm: function () {
         this.teaFormVisible = false;
-      },
+      }
+      ,
 
       editScore: function (index, row) {
         this.teaFormTitle = "编辑成绩";
@@ -199,7 +201,8 @@
         this.isAdd = false;
         this.teaFormVisible = true;
         this.teaFormModel = this.score[index];
-      },
+      }
+      ,
 
       addScore: function (index, row) {
         //console.log(index);
@@ -214,7 +217,8 @@
           classno: "",
           score: ""
         };
-      },
+      }
+      ,
 
       commitEdit: function () {
         this.$refs.teaForm.validate(valid => {
@@ -249,7 +253,8 @@
             return false;
           }
         });
-      },
+      }
+      ,
 
       commitAdd: function () {
         this.$refs.teaForm.validate(valid => {
@@ -286,7 +291,8 @@
         });
       }
     }
-  };
+  }
+  ;
 
 </script>
 
