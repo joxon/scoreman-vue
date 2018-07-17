@@ -1,6 +1,6 @@
+
 <template>
   <el-container direction='vertical'>
-
     <el-button-group>
       <el-dropdown @command="chooseCourse">
         <el-button type="success">
@@ -42,15 +42,53 @@
       </el-table-column>
     </el-table>
 
+      <bar-chart ref="barchart" :chart-data="barChartData"
+                 :options="{responsive: true, maintainAspectRatio: false}">
+      </bar-chart>
+
+    <pie-chart ref="piechart" :chart-data="pieChartData"
+               :options="{responsive: true, maintainAspectRatio: false}">
+    </pie-chart>
+
   </el-container>
 </template>
 
+
 <script>
+  import BarChart from '@/components/BarChart.js'
+  import PieChart from '@/components/PieChart.js'
+
   export default {
+    components:{BarChart,PieChart},
     name: "TeacherScore",
     
     data() {
       return {
+        barChartData:{
+          labels: ['0-60分','60-70分','70-80分','80-90分','90-100分'],
+          datasets: [
+            {
+              label: '学生成绩分布',
+              backgroundColor: '#f87979',
+              data: []
+            }
+          ]
+        },
+        pieChartData:{
+          labels: ['0-60分','60-70分','70-80分','80-90分','90-100分'],
+          datasets: [
+            {
+              backgroundColor: [
+                '#969696',
+                '#41B883',
+                '#E46651',
+                '#00D8FF',
+                '#DD1B16'
+              ],
+              data: []
+            }
+          ]
+        },
         score: [{
           sID: "",
           sName: "",
@@ -131,6 +169,17 @@
           .then(res => {
             console.log(res);
             this.score = res.data;
+          });
+        this.$http.get("/tea/pic?tID="+this.$store.state.user.username+
+          "&cID="+this.curCourse.cID)
+          .then(res => {
+            this.pieChartData.datasets[0].data=res.data;
+            this.$refs.piechart.update();
+            this.barChartData.datasets[0].data=res.data;
+            this.$refs.barchart.update();
+            //console.log(this.pieChartData.datasets.data);
+            //console.log(this.barChartData.datasets.data);
+
           });
       },
 
