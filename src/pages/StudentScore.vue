@@ -2,9 +2,9 @@
   <el-container direction='vertical'>
     <!--el-button @click="getScore">111</el-button-->
     <el-table :data="tableData" stripe>
-      <el-table-column prop="cID" label="课程号" width="150" />
+      <el-table-column prop="cID" label="课程号" width="100" />
       <el-table-column prop="cName" label="课程名" width="200" />
-      <el-table-column prop="grade" label="成绩" width="200" />
+      <el-table-column prop="grade" label="成绩" />
     </el-table>
   </el-container>
 </template>

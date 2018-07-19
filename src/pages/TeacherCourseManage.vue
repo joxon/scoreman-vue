@@ -31,10 +31,10 @@
     </el-dialog>
 
     <el-table :data='score' stripe max-height='500'>
-      <el-table-column sortable prop='sID' label='学号' width='90'/>
-      <el-table-column prop='sName' label='姓名' width='70'/>
-      <el-table-column prop='classno' label='班级' width='100'/>
-      <el-table-column prop='grade' label='成绩' width='50'/>
+      <el-table-column sortable prop='sID' label='学号' width='90' />
+      <el-table-column prop='sName' label='姓名' width='70' />
+      <el-table-column prop='classno' label='班级' width='100' />
+      <el-table-column prop='grade' label='成绩' width='50' />
       <el-table-column fixed='right' label='操作' width='200'>
         <template slot-scope="scope">
           <el-button icon="el-icon-edit" size="mini" @click="editScore(scope.$index, scope.row)">编辑</el-button>
@@ -42,52 +42,51 @@
       </el-table-column>
     </el-table>
 
-    <bar-chart ref="barchart" :chart-data="barChartData"
-               :options="{responsive: true, maintainAspectRatio: false}">
-    </bar-chart>
+    <div class="ChartFields">
+      <h1>条状图</h1>
+      <bar-chart ref="barchart" :chart-data="barChartData" :options="{responsive: true, maintainAspectRatio: false}"/>
 
-    <pie-chart ref="piechart" :chart-data="pieChartData"
-               :options="{responsive: true, maintainAspectRatio: false}">
-    </pie-chart>
+      <h1>饼状图</h1>
+      <pie-chart ref="piechart" :chart-data="pieChartData" :options="{responsive: true, maintainAspectRatio: false}"/>
+    </div>
 
   </el-container>
 </template>
 
 
 <script>
-  import BarChart from '@/components/BarChart.js'
-  import PieChart from '@/components/PieChart.js'
+  import BarChart from "@/components/BarChart.js";
+  import PieChart from "@/components/PieChart.js";
 
   export default {
-    components: {BarChart, PieChart},
+    components: {
+      BarChart,
+      PieChart
+    },
     name: "TeacherScore",
 
     data() {
       return {
         barChartData: {
-          labels: ['0-60分', '60-70分', '70-80分', '80-90分', '90-100分'],
-          datasets: [
-            {
-              label: '学生成绩分布',
-              backgroundColor: '#f87979',
-              data: []
-            }
-          ]
+          labels: ["0-60分", "60-70分", "70-80分", "80-90分", "90-100分"],
+          datasets: [{
+            label: "学生成绩分布",
+            backgroundColor: "#f87979",
+            data: []
+          }]
         },
         pieChartData: {
-          labels: ['0-60分', '60-70分', '70-80分', '80-90分', '90-100分'],
-          datasets: [
-            {
-              backgroundColor: [
-                '#969696',
-                '#41B883',
-                '#E46651',
-                '#00D8FF',
-                '#DD1B16'
-              ],
-              data: []
-            }
-          ]
+          labels: ["0-60分", "60-70分", "70-80分", "80-90分", "90-100分"],
+          datasets: [{
+            backgroundColor: [
+              "#969696",
+              "#41B883",
+              "#E46651",
+              "#00D8FF",
+              "#DD1B16"
+            ],
+            data: []
+          }]
         },
         score: [{
           sID: "",
@@ -163,47 +162,45 @@
           .get(
             "/tea/getGradeByCID?tID=" +
             this.$store.state.user.username +
-            "&cID=" + this.curCourse.cID
+            "&cID=" +
+            this.curCourse.cID
           )
           .then(res => {
             console.log(res);
             this.score = res.data;
           });
-        this.$http.get("/tea/pic?tID=" + this.$store.state.user.username +
-          "&cID=" + this.curCourse.cID)
-          .then(res => {
-              this.pieChartData.datasets[0].data = res.data;
-              this.barChartData.datasets[0].data = res.data;
-              this.$refs.piechart.update();
-              this.$refs.barchart.update();
-              //console.log(this.pieChartData.datasets.data);
-              //console.log(this.barChartData.datasets.data);
-            }
+        this.$http
+          .get(
+            "/tea/pic?tID=" +
+            this.$store.state.user.username +
+            "&cID=" +
+            this.curCourse.cID
           )
-        ;
+          .then(res => {
+            this.pieChartData.datasets[0].data = res.data;
+            this.barChartData.datasets[0].data = res.data;
+            this.$refs.piechart.update();
+            this.$refs.barchart.update();
+            //console.log(this.pieChartData.datasets.data);
+            //console.log(this.barChartData.datasets.data);
+          });
       },
 
       chooseCourse: function (i) {
         console.log("index=" + i);
         this.curCourse = this.courseInfo[i];
         this.getScore();
-      }
-      ,
-
+      },
       hideStuForm: function () {
         this.teaFormVisible = false;
-      }
-      ,
-
+      },
       editScore: function (index, row) {
         this.teaFormTitle = "编辑成绩";
         this.isEdit = true;
         this.isAdd = false;
         this.teaFormVisible = true;
         this.teaFormModel = this.score[index];
-      }
-      ,
-
+      },
       addScore: function (index, row) {
         //console.log(index);
         //console.log(row);
@@ -217,9 +214,7 @@
           classno: "",
           score: ""
         };
-      }
-      ,
-
+      },
       commitEdit: function () {
         this.$refs.teaForm.validate(valid => {
           if (valid) {
@@ -253,9 +248,7 @@
             return false;
           }
         });
-      }
-      ,
-
+      },
       commitAdd: function () {
         this.$refs.teaForm.validate(valid => {
           if (valid) {
@@ -291,12 +284,19 @@
         });
       }
     }
-  }
-  ;
+  };
 
 </script>
 
-<style scoped>
-
+<style>
+  .ChartFields {
+    border-radius: 10px;
+    border: 1px solid lightgray;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 30px 15px;
+  }
 
 </style>
