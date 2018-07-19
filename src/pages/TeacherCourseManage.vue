@@ -33,9 +33,9 @@
     <el-table :data='score' stripe max-height='500'>
       <el-table-column sortable prop='sID' label='学号' width='90' />
       <el-table-column prop='sName' label='姓名' width='70' />
-      <el-table-column prop='classno' label='班级' width='100' />
-      <el-table-column prop='grade' label='成绩' width='50' />
-      <el-table-column fixed='right' label='操作' width='200'>
+      <el-table-column prop='classno' label='班级' width='150' />
+      <el-table-column prop='grade' label='成绩' />
+      <el-table-column fixed='right' label='操作' width="200">
         <template slot-scope="scope">
           <el-button icon="el-icon-edit" size="mini" @click="editScore(scope.$index, scope.row)">编辑</el-button>
         </template>

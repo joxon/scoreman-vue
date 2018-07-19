@@ -33,8 +33,8 @@
       <el-table-column type='selection' width='40' />
       <el-table-column sortable prop='sID' label='学生号' width='90' />
       <el-table-column prop='sName' label='姓名' width='70' />
-      <el-table-column prop='classno' label='班级' width='100' />
-      <el-table-column fixed='right' label='操作' width='200'>
+      <el-table-column prop='classno' label='班级' />
+      <el-table-column fixed='right' label='操作' width="200">
         <template slot-scope='scope'>
           <el-button icon='el-icon-delete' size='mini' type='danger' @click='handleDeleteFromMenu(scope.$index, scope.row)'>删除</el-button>
         </template>
