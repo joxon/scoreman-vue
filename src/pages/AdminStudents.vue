@@ -7,7 +7,7 @@
     </el-button-group>
 
     <el-dialog :title='stuFormTitle' :visible.sync='stuFormVisible'>
-      <el-form ref='stuForm' :rules='stuFormRules' :model='stuFormModel' label-width="80px">
+      <el-form ref='stuForm' :rules='stuFormRules' :model='stuFormModel' label-width="80px" status-icon>
         <el-form-item prop='sID' label='学生号' >
           <el-input :disabled="sIDInputDisabled" v-model='stuFormModel.sID'>
             <template slot="prepend">S</template>

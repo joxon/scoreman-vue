@@ -7,7 +7,7 @@
     </el-button-group>
 
     <el-dialog :title='crsFormTitle' :visible.sync='crsFormVisible'>
-      <el-form ref='crsForm' :rules='crsFormRules' :model='crsFormModel' label-width="80px">
+      <el-form ref='crsForm' :rules='crsFormRules' :model='crsFormModel' label-width="80px" status-icon>
         <el-form-item prop='cID' label='课程号'>
           <el-input :disabled="cIDInputDisabled" v-model='crsFormModel.cID'>
             <template slot="prepend">C</template>

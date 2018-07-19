@@ -1,18 +1,18 @@
 <template>
   <el-row type='flex' justify='center'>
-    <el-form class="Form" ref='loginForm' :model='loginFormModel' :rules='loginFormRules' status-icon>
+    <el-form class="Form" ref='loginForm' :model='loginFormModel' :rules='loginFormRules'>
       <h1 class="Form-title">登录</h1>
       <p class="Form-description">请验证身份</p>
 
       <div class="Form-fields">
         <label class="Control-label">用户名</label>
         <el-form-item prop='username'>
-          <el-input class="ControlInput" placeholder='请输入用户名' v-model='loginFormModel.username' @keyup.enter.native='submitForm("loginForm")'></el-input>
+          <el-input class="ControlInput" clearable placeholder='请输入用户名' v-model='loginFormModel.username' @keyup.enter.native='submitForm("loginForm")'></el-input>
         </el-form-item>
 
         <label class="Control-label">密码</label>
         <el-form-item prop='password'>
-          <el-input class="ControlInput" placeholder='请输入密码' v-model='loginFormModel.password' type='password' @keyup.enter.native='submitForm("loginForm")'></el-input>
+          <el-input class="ControlInput" clearable placeholder='请输入密码' v-model='loginFormModel.password' type='password' @keyup.enter.native='submitForm("loginForm")'></el-input>
         </el-form-item>
 
         <el-form-item>
@@ -143,4 +143,5 @@ export default {
 #login-button {
   width: 70%;
 }
+
 </style>

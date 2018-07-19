@@ -12,7 +12,7 @@
     </el-button-group>
 
     <el-dialog :title='teaFormTitle' :visible.sync='teaFormVisible'>
-      <el-form ref='teaForm' :rules='teaFormRules' :model='teaFormModel' label-width="80px">
+      <el-form ref='teaForm' :rules='teaFormRules' :model='teaFormModel' label-width="80px" status-icon>
         <el-form-item prop='tID' label='教师号' >
           <el-input :disabled="tIDInputDisabled" v-model='teaFormModel.tID'>
             <template slot="prepend">T</template>

@@ -51,7 +51,6 @@ export default {
 </script>
 
 <style>
-
 .el-header {
   background-color: rgb(0, 174, 255);
   color: white;
@@ -64,7 +63,7 @@ export default {
 }
 
 .el-footer {
-  background-color: rgb(230, 230, 230);
+  background-color: darkgray;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -72,8 +71,10 @@ export default {
   text-align: center;
 }
 
-.el-footer > p{
+.el-footer > p {
+  color: white;
   font-size: x-small;
+  font-weight:lighter;
 }
 
 html {
