@@ -1,6 +1,6 @@
 # scoreman-vue
 
-A student score manager
+A student score manager frontend written in Vue.js 
 
 ## Build Setup
 
