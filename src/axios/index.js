@@ -7,7 +7,8 @@ axios.defaults.timeout = 5000
 axios.defaults.withCredentials = true; // 让ajax携带cookie
 
 // zdh: http://10.206.12.202:3000
-axios.defaults.baseURL = "http://10.206.12.202:80"
+// local: http://127.0.0.1:3000
+axios.defaults.baseURL = "http://127.0.0.1:3000"
 
 Vue.prototype.$http = axios
 // Vue.prototype.$ajax = axios
